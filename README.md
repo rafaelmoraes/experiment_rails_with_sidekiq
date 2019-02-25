@@ -1,1 +1,1 @@
-* Just an experiment with Sidekiq
+# Just an experiment with Sidekiq
