@@ -1,0 +1,29 @@
+<%= form_with(model: task, local: true) do |form| %>
+  <% if task.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+      <% task.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+
+    <%= form.label :queue %>
+    <%= form.select :queue_name,
+                    Task::AVAILABLE_QUEUES.map { |name| [name, name] } %>
+
+    <%= form.label :schedule %>
+    <%= form.datetime_select :scheduled_at %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

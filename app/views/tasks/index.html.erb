@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+<h1>Tasks</h1>
+
+<h2>New Task</h2>
+<%= render 'form', task: @task %>
+
+<h2>Scheduled Tasks</h2>
+<%= button_to 'Delete All Tasks',
+            tasks_destroy_all_path ,
+            method: :post,
+            data: {
+              confirm: "Are you sure you want to destroy all tasks?"
+            } if @tasks.size > 0 %>
+<br></br>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Queue</th>
+      <th>Scheduled at</th>
+      <th>Done at</th>
+      <th>Done?</th>
+      <th>Delete</th>
+      <th>Cancel</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.queue_name %></td>
+        <td><%= task.scheduled_at %></td>
+        <td><%= task.done_at %></td>
+        <td><%= task.done? %></td>
+        <td><%= link_to 'Delete',
+                        task,
+                        method: :delete,
+                        data: { confirm: 'Are you sure?' } %></td>
+        <td>
+          <% if task.canceled? %>
+            Canceled
+          <% elsif ! task.done? %>
+            <%= link_to "Cancel", cancel_task_url(task.id), method: :patch %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

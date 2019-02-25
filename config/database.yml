@@ -1,0 +1,22 @@
+---
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= Rails.application.secrets[:database][:host] %>
+  database: <%= Rails.application.secrets[:database][:name] %>
+  username: <%= Rails.application.secrets[:database][:username] %>
+  password: <%= Rails.application.secrets[:database][:password] %>
+  # post: 5432
+
+  # Schema search path. The server defaults to $user,public
+  # schema_search_path: myapp,sharedapp,public
+  # Minimum log levels, in increasing order:
+  #   debug5, debug4, debug3, debug2, debug1,
+  #   log, notice, warning, error, fatal, and panic
+  # Defaults to warning.
+  # min_messages: notice
+
+development: *default
+test: *default
+production: *default

@@ -1,0 +1,51 @@
+---
+version: "3"
+
+networks:
+  rails-with-sidekiq-network:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "rails_sidekiq"
+    volumes:
+      - .docker_volumes/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - rails-with-sidekiq-network
+
+  redis:
+    image: redis:alpine
+    restart: always
+    command: redis-server --appendonly yes
+    volumes:
+      - .docker_volumes/redis:/data
+    ports:
+      - 6379:6379
+    networks:
+      - rails-with-sidekiq-network
+
+  vim:
+    build:
+      dockerfile: vim-rails-sidekiq.dockerfile
+      context: .
+    image: "rmoraes/vim-rails-sidekiq:latest"
+    volumes:
+      - .:/development
+      - /home/rafael/.vim-undo/root:/root/.vim-undo
+      - .docker_volumes/dot_files:/dot_files
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    ports:
+      - 3000:3000
+    networks:
+      - rails-with-sidekiq-network
+    environment:
+      DISPLAY: unix$DISPLAY
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true

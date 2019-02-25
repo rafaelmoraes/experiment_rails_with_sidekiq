@@ -1,0 +1,12 @@
+---
+:concurrency: 4
+staging:
+  :concurrency: 8
+production:
+  :concurrency: 16
+:queues:
+  # declaration order sets the execution priority order
+  - critical
+  - scheduled
+  - default
+  - low
