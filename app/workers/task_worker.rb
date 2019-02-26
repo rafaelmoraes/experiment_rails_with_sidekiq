@@ -7,7 +7,7 @@ class TaskWorker
 
   def perform(task_id)
     task = Task.find_by id: task_id
-    sleep 45 unless Rails.env.test?
+    sleep 45 if Rails.env.development?
     task&.do!
   end
 end
