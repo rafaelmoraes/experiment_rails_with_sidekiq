@@ -8,6 +8,7 @@
 <%= button_to 'Delete All Tasks',
             tasks_destroy_all_path ,
             method: :post,
+            style: 'font-weight:bold ; color: red',
             data: {
               confirm: "Are you sure you want to destroy all tasks?"
             } if @tasks.size > 0 %>
@@ -36,6 +37,7 @@
         <td><%= link_to 'Delete',
                         task,
                         method: :delete,
+                        style: 'color: red',
                         data: { confirm: 'Are you sure?' } %></td>
         <td>
           <% if task.canceled? %>
